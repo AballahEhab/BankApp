@@ -6,7 +6,7 @@ import com.abdallahehab.bankapp.database.User
 import com.abdallahehab.bankapp.users
 import javax.inject.Inject
 
-class Repository @Inject constructor(appDatabase:AppDatabase) {
+class UserRepository @Inject constructor(appDatabase:AppDatabase) {
     private val usersDao = appDatabase.userDao()
     private val transactionsDao = appDatabase.transactionDao()
 
