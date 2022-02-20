@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.abdallahehab.bankapp.ui.userDetailsFragment.UserDetailsViewModel" />
+    </data>
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            tools:context=".ui.userDetailsFragment.UserDetailsFragment">
+
+
+            <TextView
+                android:id="@+id/user_name_label"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="20dp"
+                android:text="Name:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/user_name"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{viewModel.currentUser.userName}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/user_name_label"
+                app:layout_constraintStart_toEndOf="@+id/user_name_label" />
+
+            <TextView
+                android:id="@+id/user_email_label"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Email:"
+                app:layout_constraintStart_toStartOf="@+id/user_name_label"
+                app:layout_constraintTop_toBottomOf="@+id/user_name_label" />
+
+            <TextView
+                android:id="@+id/user_email"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.currentUser.email}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/user_email_label"
+                app:layout_constraintStart_toStartOf="@+id/user_name" />
+
+            <TextView
+                android:id="@+id/user_balance_label"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Balance:"
+                app:layout_constraintStart_toStartOf="@+id/user_email_label"
+                app:layout_constraintTop_toBottomOf="@+id/user_email_label" />
+
+            <TextView
+                android:id="@+id/user_balance"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                app:intText="@{viewModel.currentUser.balance}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/user_balance_label"
+                app:layout_constraintStart_toEndOf="@+id/user_balance_label" />
+
+            <Button
+                android:id="@+id/transfer_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:text="transfer"
+                app:layout_constraintBottom_toTopOf="@+id/all_users_spiner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.541"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_balance_label"
+                app:layout_constraintVertical_bias="0.0"
+                android:onClick="@{()->viewModel.onTransferClicked()}"
+                app:isVisible="@{!viewModel.transferViewsVisibility}"
+                />
+
+            <Button
+                android:id="@+id/transfer_confermation_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="confirm transaction"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/transfere_amount_in_layout"
+                android:onClick="@{()->viewModel.onConfirmTransactionClicked()}"
+                app:isVisible = "@{viewModel.transferViewsVisibility}"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/all_users_spiner"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:hint="select user to transfeer to"
+                android:padding="8dp"
+                app:isVisible="@{viewModel.transferViewsVisibility}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/transfer_btn">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:afterTextChanged="@{()->viewModel.validateReceiverEmail()}"
+                    android:inputType="none"
+                    android:text="@={viewModel.receiverUserEmail}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/detailed_user_balance"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="$"
+                app:layout_constraintBaseline_toBaselineOf="@+id/user_balance"
+                app:layout_constraintStart_toEndOf="@+id/user_balance" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/transfere_amount_in_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="amount to transfer"
+                android:padding="8dp"
+                app:isVisible="@{viewModel.transferViewsVisibility}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/all_users_spiner">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:afterTextChanged="@{()->viewModel.validateTransferecAmount()}"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:padding="8dp"
+                    android:text="@={viewModel.transferredAmount}" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7A787878"
+        android:translationZ="2dp"
+        app:isVisible="@{viewModel.loadingEnable}">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            />
+    </FrameLayout>
+</FrameLayout>
+</layout>
