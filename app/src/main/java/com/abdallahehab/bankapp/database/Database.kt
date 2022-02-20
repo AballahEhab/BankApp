@@ -8,6 +8,6 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
 
-    abstract fun transactionDap(): TransactionDao
+    abstract fun transactionDao(): TransactionDao
 
 }
