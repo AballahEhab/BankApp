@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserDetailsViewModel @Inject constructor(val repo: Repository): ViewModel() {
+class UserDetailsViewModel @Inject constructor(val repo: UserRepository): ViewModel() {
 
     var listOfUserNames = Transformations.map(repo.getAllUserNames()) {
         it.toMutableList().filter { email-> email!=(currentUser.value?.email) }.toList()
