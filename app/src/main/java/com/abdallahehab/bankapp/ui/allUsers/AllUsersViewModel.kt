@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AllUsersViewModel @Inject constructor(val repo: Repository) : ViewModel() {
+class AllUsersViewModel @Inject constructor(val repo: UserRepository) : ViewModel() {
 
     var usersDataList = Transformations.map(repo.getAllUsers()) { userList->
         userList.map { user -> dataBaseMapper.userToUserData(user) }
